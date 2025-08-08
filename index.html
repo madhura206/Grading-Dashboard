@@ -16,9 +16,8 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      /* Remove or lighten the gradient for a sharper image */
+      
       background:
-        linear-gradient(120deg, rgba(224,234,252,0.3) 0%, rgba(207,222,243,0.3) 100%),
         url('https://images.unsplash.com/photo-1513258496099-48168024aec0?auto=format&fit=crop&w=1200&q=80');
       background-size: cover;
       background-repeat: no-repeat;
@@ -27,10 +26,10 @@
     }
 
     .container {
-      flex: 1;
+      
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
+      
       padding: 20px;
       gap: 20px;
     }
@@ -40,9 +39,7 @@
   padding: 20px;
   background-color: #0077cc;
   color: white;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+
   margin: 0;
       
     }
@@ -51,7 +48,6 @@
       background: white;
       padding: 15px;
       border-radius: 10px;
-      box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
       width: 300px;
     }
 
@@ -64,8 +60,10 @@
     }
 
     .highlight {
-      box-shadow: 0 0 20px 5px green;
-      transform: scale(1.05);
+      box-shadow: 0 0 30px 8px #2ecc40, 0 8px 24px rgba(46,204,64,0.3);
+      border: 2px solid #2ecc40;
+      transform: scale(1.07) perspective(400px) rotateX(2deg);
+      transition: box-shadow 0.3s, border 0.3s, transform 0.3s;
     }
 
     label {
@@ -113,22 +111,22 @@
   <div class="container" id="formContainer"></div>
 
   <footer>
-    Developed by Madhura • Completed at <span id="time"></span>
+    Developed by Madhura</span>
   </footer>
 
   <script>
     const subjects = ["Maths", "Science", "English", "History", "CS"];
     const students = [
-      { name: "Rahul Sharma", roll: 101 },
-      { name: "Sneha Patel", roll: 102 },
-      { name: "Arjun Mehta", roll: 103 },
+      { name: "Monalika Kubde", roll: 101 },
+      { name: "Reyon Bose", roll: 102 },
+      { name: "Manas Pinjarkar", roll: 103 },
     ];
 
     function createDropdown(name) {
       const select = document.createElement("select");
-      select.name = name;
+      
       subjects.forEach(subject => {
-        const marks = Math.floor(Math.random() * 101); // random marks 0-100
+        const marks = Math.floor(Math.random() * 101); 
         const opt = document.createElement("option");
         opt.value = marks;
         opt.textContent = `${subject} (${marks})`;
@@ -206,15 +204,30 @@
 
         result.classList.add("pulse");
 
-        // Always highlight the current result card
-        document.querySelectorAll(".result-card").forEach(card => card.classList.remove("highlight"));
-        result.classList.add("highlight");
+        
+        document.querySelectorAll(".result-card").forEach(card => {
+          card.classList.remove("highlight");
+        });
 
-        setTimeout(() => result.classList.remove("pulse"), 500);
+     
+        let highestAvg = -1;
+        let highestCard = null;
+        document.querySelectorAll(".student-form").forEach(formEl => {
+          const card = formEl.querySelector(".result-card");
+          const match = card.innerHTML.match(/<strong>Average:<\/strong>\s*(\d+)/);
+          if (match) {
+            const cardAvg = parseInt(match[1]);
+            if (cardAvg > highestAvg) {
+              highestAvg = cardAvg;
+              highestCard = card;
+            }
+          }
+        });
+        if (highestCard) highestCard.classList.add("highlight");
       });
     });
 
-    document.getElementById("time").textContent = new Date().toLocaleString();
+    
   </script>
 </body>
 </html>
